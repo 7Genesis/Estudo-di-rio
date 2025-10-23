@@ -10,7 +10,7 @@ app.use(express.json());
 // Health
 app.get('/api/health', (_req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
 
-// Leads (exemplo)
+// Leads
 const leads = [];
 app.post('/api/marketing/leads', (req, res) => {
   const { name, email, phone = '', company = '', source = 'landing' } = req.body || {};
@@ -21,29 +21,38 @@ app.post('/api/marketing/leads', (req, res) => {
   res.status(201).json({ message: 'Lead recebido', leadId: id });
 });
 
-// Debug do build
+// Debug
 app.get('/api/__debug-build', (_req, res) => {
   const dir = path.join(__dirname, '../react-frontend/build');
   res.json({
     staticDir: dir,
     exists: fs.existsSync(dir),
-    indexExists: fs.existsSync(path.join(dir, 'index.html'))
+    indexExists: fs.existsSync(path.join(dir, 'index.html')),
+    env: { PORT: process.env.PORT }
   });
 });
 
-// 404 para APIs desconhecidas
+// 404 APIs
 app.all('/api/*', (_req, res) => res.status(404).json({ message: 'Not found' }));
 
-// Servir React build
+// Servir React
 const staticDir = path.join(__dirname, '../react-frontend/build');
-if (fs.existsSync(staticDir)) app.use(express.static(staticDir));
+if (fs.existsSync(staticDir)) {
+  app.use(express.static(staticDir));
+}
 
 app.get('*', (req, res) => {
   if (req.path.startsWith('/api')) return res.status(404).json({ message: 'Not found' });
   const indexPath = path.join(staticDir, 'index.html');
-  if (!fs.existsSync(indexPath)) return res.status(500).send('Build do frontend não encontrado.');
+  if (!fs.existsSync(indexPath)) {
+    return res.status(500).send('Build não encontrado. Rode: npm run build:fe');
+  }
   return res.sendFile(indexPath);
 });
 
+// IMPORTANTE: usar a PORT do Railway ou 5000 local
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => console.log(`✅ Online em http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ Server online na porta ${PORT}`);
+  console.log(`   Health: http://localhost:${PORT}/api/health`);
+});
