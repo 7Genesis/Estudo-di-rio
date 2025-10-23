@@ -5,8 +5,7 @@ services:
     region: oregon
     plan: free
     buildCommand: npm install
-    startCommand: node web/server.js
-    rootDir: app-juridico
+    startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
