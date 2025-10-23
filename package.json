@@ -1,9 +1,11 @@
 {
   "name": "hub-evoluti",
+  "version": "1.0.0",
   "private": true,
   "engines": { "node": ">=18" },
+  "main": "index.js",
   "scripts": {
-    "start": "node app-juridico/web/server.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
