@@ -1,0 +1,315 @@
+openapi: 3.0.3
+info:
+  title: Hub Evoluti 360° API
+  description: |
+    API completa para gestão de RH, DP e eSocial integrado.
+    
+    **Segurança:** Bearer token (JWT) obrigatório em todos os endpoints protegidos.
+    **LGPD:** Logs de auditoria em todas as operações sensíveis.
+  version: 1.0.0
+  contact:
+    name: Suporte Hub Evoluti
+    email: suporte@hubevoluti.com.br
+
+servers:
+  - url: https://hub-evoluti-backend-production-5135.up.railway.app/api
+    description: Produção
+  - url: http://localhost:5000/api
+    description: Desenvolvimento
+
+tags:
+  - name: Auth
+    description: Autenticação e autorização
+  - name: Colaboradores
+    description: Gestão de colaboradores
+  - name: Eventos eSocial
+    description: Ciclo de vida dos eventos eSocial
+  - name: Folha
+    description: Cálculo de folha e rubricas
+  - name: Dashboard
+    description: Indicadores e relatórios
+  - name: Admin
+    description: Administração (certificados, logs)
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+
+    Colaborador:
+      type: object
+      required:
+        - nome
+        - cpf
+        - dataAdmissao
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+          format: email
+        cpf:
+          type: string
+          pattern: '^\d{11}$'
+        cargo:
+          type: string
+        salario:
+          type: number
+          format: decimal
+        dataAdmissao:
+          type: string
+          format: date
+        status:
+          type: string
+          enum: [ATIVO, AFASTADO, DESLIGADO]
+
+    Evento:
+      type: object
+      properties:
+        id:
+          type: integer
+        tipo:
+          type: string
+          enum: [S-2200, S-2205, S-2206, S-1200, S-1210]
+        status:
+          type: string
+          enum: [DRAFT, VALIDADO, ASSINADO, ENVIADO, PROCESSADO, ERRO]
+        colaboradorId:
+          type: integer
+        protocolo:
+          type: string
+        recibo:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      tags: [Auth]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  ts:
+                    type: string
+                    format: date-time
+
+  /colaboradores:
+    post:
+      summary: Criar colaborador
+      tags: [Colaboradores]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Colaborador'
+      responses:
+        '201':
+          description: Colaborador criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Colaborador'
+        '400':
+          description: Dados inválidos
+        '403':
+          description: Sem permissão
+
+  /colaboradores/{id}:
+    get:
+      summary: Obter colaborador
+      tags: [Colaboradores]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Colaborador'
+        '404':
+          description: Não encontrado
+
+  /eventos/s2200:
+    post:
+      summary: Criar evento S-2200 (admissão)
+      tags: [Eventos eSocial]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - colaboradorId
+              properties:
+                colaboradorId:
+                  type: integer
+                contratoId:
+                  type: integer
+      responses:
+        '201':
+          description: Evento criado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  eventoId:
+                    type: integer
+                  nextStep:
+                    type: string
+
+  /eventos/{id}/validar:
+    post:
+      summary: Validar evento (passo 2/5)
+      tags: [Eventos eSocial]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Evento validado
+        '400':
+          description: Erros de validação
+
+  /eventos/{id}/assinar:
+    post:
+      summary: Assinar evento (passo 3/5)
+      tags: [Eventos eSocial]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Evento assinado
+        '400':
+          description: Evento não validado
+
+  /eventos/{id}/transmitir:
+    post:
+      summary: Transmitir ao eSocial (passo 4/5)
+      tags: [Eventos eSocial]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Evento transmitido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  protocolo:
+                    type: string
+                  recibo:
+                    type: string
+
+  /eventos/{id}/status:
+    get:
+      summary: Consultar status do evento
+      tags: [Eventos eSocial]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Status do evento
+
+  /dashboard/pendencias:
+    get:
+      summary: Dashboard de pendências
+      tags: [Dashboard]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Estatísticas de pendências
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalPendentes:
+                    type: integer
+                  prazosCriticos:
+                    type: integer
+                  totalComErro:
+                    type: integer
+
+  /logs/auditoria:
+    get:
+      summary: Logs de auditoria (LGPD)
+      tags: [Admin]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: action
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Logs retornados
+        '403':
+          description: Sem permissão
