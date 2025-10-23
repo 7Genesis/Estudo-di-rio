@@ -1,0 +1,12 @@
+app-juridico: Atualiza build do frontend React e configura deploy no Netlify
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+# Your branch is ahead of 'origin/main' by 5 commits.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   app-juridico/main.c
+#	new file:   app-juridico/react-frontend/.env.production
+#

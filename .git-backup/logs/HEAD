@@ -1,0 +1,9 @@
+0000000000000000000000000000000000000000 d9f8d6324cd2473b4c904cd4d1ce25a4f6563951 Genesis Melo <genesis.melo4398@hotmail.com> 1760737102 -0300	clone: from https://github.com/7Genesis/Estudo-di-rio.git
+d9f8d6324cd2473b4c904cd4d1ce25a4f6563951 ade8bfb9357ba0645dcfeb33a2cb73e439957e95 Genesis Melo <genesis.melo4398@hotmail.com> 1760915653 -0300	commit: Domingo, 16 de junho de 2024 às 18:45 -03:00
+ade8bfb9357ba0645dcfeb33a2cb73e439957e95 3b9dabe1261c44a31542514c600f98c82e112737 Genesis Melo <genesis.melo4398@hotmail.com> 1760916936 -0300	commit: jogos
+3b9dabe1261c44a31542514c600f98c82e112737 65784a76061c354f7aed68d70c39cae422c8e185 Genesis Melo <genesis.melo4398@hotmail.com> 1761178888 -0300	commit: ok
+65784a76061c354f7aed68d70c39cae422c8e185 e3582fbc5a114fa5dd2aefbe66279212974efb2d Genesis Melo <genesis.melo4398@hotmail.com> 1761182378 -0300	commit: ccccw
+e3582fbc5a114fa5dd2aefbe66279212974efb2d 01461c68b660ba2d024f3664b6198118c4d56851 Genesis Melo <genesis.melo4398@hotmail.com> 1761183056 -0300	commit: Remove dist e ignora artefatos grandes
+01461c68b660ba2d024f3664b6198118c4d56851 4d7e1682b40c52e7cbb10fad2688198afb5b2087 Genesis Melo <genesis.melo4398@hotmail.com> 1761183119 -0300	commit: app
+4d7e1682b40c52e7cbb10fad2688198afb5b2087 5ecccbfb5cdebb797df6c18c788bb99b6c5431ea Genesis Melo <genesis.melo4398@hotmail.com> 1761183715 -0300	commit: Remove dist do Git
+5ecccbfb5cdebb797df6c18c788bb99b6c5431ea 28598c9f2cf56dae890ebd30ff179e9ea18f656e Genesis Melo <genesis.melo4398@hotmail.com> 1761184093 -0300	commit: app-juridico: Atualiza build do frontend React e configura deploy no Netlify

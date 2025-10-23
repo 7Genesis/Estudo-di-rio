@@ -1,0 +1,25 @@
+app-juridico/dist/
+
+# Builds
+app-juridico/dist/
+**/*.dmg
+**/*.zip
+**/*.exe
+**/*.AppImage
+**/Electron Framework
+
+# Builds desktop
+app-juridico/dist/
+**/*.dmg
+**/*.zip
+**/*.exe
+**/*.AppImage
+**/Electron Framework
+
+# Node
+node_modules/
+app-juridico/react-frontend/build/
+**/.env*.local
+
+# Outros
+.DS_Store

@@ -1,0 +1,22 @@
+evoluti-rh-360/
+├── backend/
+│   ├── server.js
+│   ├── routes/
+│   │   └── employees.js
+│   ├── models/
+│   │   └── employee.js
+│   └── controllers/
+│       └── employeeController.js
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── App.js
+│   │   └── index.js
+│   └── package.json
+│
+├── database/
+│   └── schema.sql
+│
+└── .env
