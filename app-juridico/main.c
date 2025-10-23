@@ -132,3 +132,20 @@ int main() {
   </ul>
 </body>
 </html>
+
+services:
+  - type: web
+    name: hub-evoluti-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: node web/server.js
+    rootDir: app-juridico
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 5000
