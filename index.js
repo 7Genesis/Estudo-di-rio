@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Hub Evoluti 360° Online ✅');
+  res.send('Hub Evoluti 360 - Online');
 });
 
 app.get('/api/health', (req, res) => {
@@ -14,12 +14,12 @@ app.get('/api/health', (req, res) => {
 app.post('/api/marketing/leads', (req, res) => {
   const { name, email } = req.body || {};
   if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(400).json({ message: 'Nome e email válidos obrigatórios' });
+    return res.status(400).json({ message: 'Nome e email validos obrigatorios' });
   }
   res.status(201).json({ message: 'Lead recebido' });
 });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Server rodando na porta ${PORT}`);
+  console.log('Server rodando na porta ' + PORT);
 });
