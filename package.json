@@ -3,9 +3,7 @@
   "private": true,
   "engines": { "node": ">=18" },
   "scripts": {
-    "start": "node app-juridico/web/server.js",
-    "build:fe": "npm install --prefix app-juridico/react-frontend && npm run build --prefix app-juridico/react-frontend",
-    "postinstall": "npm run build:fe"
+    "start": "node app-juridico/web/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
