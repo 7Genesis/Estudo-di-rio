@@ -1,15 +1,18 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/index.js", "use": "@vercel/node" },
-    { "src": "app-juridico/react-frontend/package.json", "use": "@vercel/static-build", "config": { "distDir": "build" } }
+    {
+      "src": "app-juridico/react-frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/index.js" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/app-juridico/react-frontend/build/index.html" }
-  ],
-  "env": {
-    "JWT_SECRET": "sua_senha_super_segura_123"
-  }
+    {
+      "src": "/(.*)",
+      "dest": "/app-juridico/react-frontend/build/$1"
+    }
+  ]
 }
