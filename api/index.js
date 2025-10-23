@@ -37,6 +37,7 @@ const pendingEmployees = [];
 const employees = [];
 
 // Rotas
+app.get('/', (req, res) => res.send('Hub Evoluti 360° Online'));
 app.get('/api', (req, res) => res.json({ message: 'API Online', version: '1.0' }));
 app.get('/api/health', (req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
 
@@ -93,6 +94,15 @@ app.delete('/api/employees/:id', authenticateToken, authorizeRole('RH','ADMIN'),
   if (idx === -1) return res.status(404).json({ message: 'Não encontrado' });
   employees.splice(idx, 1);
   return res.json({ message: 'Removido' });
+});
+
+app.post('/api/marketing/leads', (req, res) => {
+  const { name, email } = req.body || {};
+  if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ message: 'Nome e email válidos obrigatórios' });
+  }
+  // Em produção, salvar no DB
+  res.status(201).json({ message: 'Lead recebido' });
 });
 
 module.exports = app;
